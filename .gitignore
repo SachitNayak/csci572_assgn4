@@ -205,3 +205,5 @@ fabric.properties
 *.csv
 *.zip
 *.pdf
+.idea/*
+

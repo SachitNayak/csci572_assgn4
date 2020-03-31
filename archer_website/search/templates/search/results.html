@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Results Page</title>
+</head>
+<body>
+    {% if user_query %}
+        <h3>Query Asked: {{ user_query }}</h3>
+        <br>
+        <h4>{{ num_docs }} matching documents were found.</h4>
+    {% else %}
+        <p> No queries were asked to be searched for.</p>
+    {% endif %}
+</body>
+</html>
