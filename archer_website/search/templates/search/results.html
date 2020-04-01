@@ -8,7 +8,15 @@
     {% if user_query %}
         <h3>Query Asked: {{ user_query }}</h3>
         <br>
-        <h4>{{ num_docs }} matching documents were found.</h4>
+        <h4>{{ num_docs }} matching documents were found. Showing top {{ num_rows }} </h4>
+        <br><br>
+        <h5>
+            <ul>
+                {% for item in links %}
+                    <li><a href="{{ item.url }}">{{ item.title }}</a></li><br>
+                {% endfor %}
+            </ul>
+        </h5>
     {% else %}
         <p> No queries were asked to be searched for.</p>
     {% endif %}
