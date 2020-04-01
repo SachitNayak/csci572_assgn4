@@ -17,6 +17,8 @@
                 {% endfor %}
             </ul>
         </h5>
+        <br><br>
+        <a href="{% url 'search:search_index' %}"> Go Back to Search Page </a>
     {% else %}
         <p> No queries were asked to be searched for.</p>
     {% endif %}
