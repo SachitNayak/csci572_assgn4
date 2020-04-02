@@ -26,6 +26,7 @@ def index(request):
 def process(request):
     global URL_HTML_HASH_MAP, NORMAL_CORE_NAME, PAGE_RANK_CORE_NAME
     user_query = request.GET.get('search_box')
+    user_query = user_query.replace('"', '').replace('"', '')
     search_method = request.GET.get('search_switch')
     original_case_user_query = deepcopy(user_query)
     user_query = user_query.strip().lower()
