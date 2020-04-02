@@ -4,8 +4,9 @@
     <meta charset="UTF-8">
     <title>Archer Search Page</title>
     {% load static %}
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="{% static 'search/style.css' %}">
+    <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" rel="stylesheet">
+    <link href="{% static 'search/style.css' %}" rel="stylesheet" type="text/css">
 </head>
 <body>
 <h3>Archer Search Page</h3>
@@ -13,15 +14,15 @@
 <form action="{% url 'search:process_query' %}">
     {% csrf_token %}
     <label for="search_box">Query:</label>
-    <input type="search" id="search_box" name="search_box"><br><br>
+    <input id="search_box" name="search_box" type="search"><br><br>
     <input type="submit" value="Submit">
     <br><br>
     <div class="switch-field">
-		<input type="radio" id="radio-one" name="search_switch" value="ns" checked/>
-		<label for="radio-one">Normal Search</label>
-		<input type="radio" id="radio-two" name="search_switch" value="prs" />
-		<label for="radio-two">PageRank Search</label>
-	</div>
+        <input checked id="radio-one" name="search_switch" type="radio" value="ns"/>
+        <label for="radio-one">Normal Search</label>
+        <input id="radio-two" name="search_switch" type="radio" value="prs"/>
+        <label for="radio-two">PageRank Search</label>
+    </div>
 </form>
 </body>
 </html>
