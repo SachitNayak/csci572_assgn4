@@ -3,17 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <title>Results Page</title>
+    {% load static %}
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{% static 'search/style.css' %}">
 </head>
 <body>
     {% if user_query %}
-        <h3>Query Asked: {{ user_query }}</h3>
-        <br>
-        <h4>{{ num_docs }} matching documents were found. Showing top {{ num_rows }} </h4>
-        <br><br>
         <h5>
             <ul>
+                <h3>Query Asked: {{ user_query }}</h3>
+            <br>
+            <h4>{{ num_docs }} matching documents were found. Showing top {{ num_rows }} </h4>
+            <br><br>
                 {% for item in links %}
-                    <li><a href="{{ item.url }}">{{ item.title }}</a></li><br>
+                    <div id="upper">{{ item.doc_id }}</div>
+                    <a href="{{ item.url }}">{{ item.title }}</a><br>
+                    <p></p>
+                    <p id="lower">{{ item.desc }}</p>
+                    <br>
                 {% endfor %}
             </ul>
         </h5>

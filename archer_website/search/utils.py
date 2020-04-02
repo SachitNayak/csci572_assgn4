@@ -4,9 +4,11 @@ from os import system
 
 
 class LinkItem(object):
-    def __init__(self, title, url):
+    def __init__(self, doc_id, title, url, desc):
+        self.doc_id = doc_id
         self.title = title
         self.url = url
+        self.desc = desc
 
 
 def create_url_hash_map(file_path):
