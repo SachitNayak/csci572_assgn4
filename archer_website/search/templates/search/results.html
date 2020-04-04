@@ -10,8 +10,9 @@
 </head>
 <body>
 {% if user_query %}
-<h5>
+<div class="container">
     <ul>
+        <h4>{{ search_title }}</h4>
         <h5>Query Asked: {{ user_query }}</h5>
         <br>
         <h5>{{ num_docs }} matching documents were found. Showing top {{ num_rows }} </h5>
@@ -26,7 +27,7 @@
         {% endfor %}
         <a style="font-size:14px;" href="{% url 'search:search_index' %}"> Go Back to Search Page </a>
     </ul>
-</h5>
+</div>
 
 {% else %}
 <p> No queries were asked to be searched for.</p>

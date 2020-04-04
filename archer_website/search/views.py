@@ -60,4 +60,8 @@ def process(request):
     print(num_docs, "documents found.")
     context = dict(user_query=original_case_user_query, num_docs=num_docs, links=search_result_links,
                    num_rows=res_row_count)
+    search_title = "Lucene Normal Search Results:"
+    if search_method == 'prs':
+        search_title = "Page Rank Search Results: "
+    context['search_title'] = search_title
     return render(request, 'search/results.html', context)

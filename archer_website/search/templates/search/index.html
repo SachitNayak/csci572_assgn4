@@ -2,14 +2,14 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Archer Search Page</title>
+    <title>Search Page</title>
     {% load static %}
     <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" rel="stylesheet">
     <link href="{% static 'search/style.css' %}" rel="stylesheet" type="text/css">
 </head>
 <body>
-<h3>Archer Search Page</h3>
+<h3>Search Page</h3>
 <br>
 <form action="{% url 'search:process_query' %}">
     {% csrf_token %}
@@ -19,7 +19,7 @@
     <br><br>
     <div class="switch-field">
         <input checked id="radio-one" name="search_switch" type="radio" value="ns"/>
-        <label for="radio-one">Normal Search</label>
+        <label for="radio-one">Lucene Normal Search</label>
         <input id="radio-two" name="search_switch" type="radio" value="prs"/>
         <label for="radio-two">PageRank Search</label>
     </div>
