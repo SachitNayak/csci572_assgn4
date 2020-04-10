@@ -3,10 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <title>Search Page</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     {% load static %}
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
     <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" rel="stylesheet">
     <link href="{% static 'search/style.css' %}" rel="stylesheet" type="text/css">
+    <script>
+        function searchOpen() {
+            var search_value = $('#search_box').val()
+            var data = {
+                q: search_value,
+                wt :'json'
+            };
+            $.ajax({
+                url: 'http://localhost:8983/solr/latimes_core/suggest',
+                data: data,
+                dataType: 'jsonp',
+                cors: true ,
+              secure: true,
+              headers: {
+                'Access-Control-Allow-Origin': '*',
+              },
+                jsonp: 'json.wrf',
+                jsonpCallback: 'searchResult'
+            });
+        }
+
+
+        function searchResult(data) {
+            var q = $('#search_box').val();
+            var val = data.suggest.suggest;
+            var res = val[q].suggestions;
+            var data_arr = [];
+            for(var i in res){
+                data_arr.push(res[i]["term"]);
+            }
+            $( "#search_box" ).autocomplete({
+                source: data_arr
+            });
+        }
+    </script>
 </head>
 <body>
 <h3>Search Page</h3>
@@ -14,7 +52,7 @@
 <form action="{% url 'search:process_query' %}">
     {% csrf_token %}
     <label for="search_box">Query:</label>
-    <input id="search_box" name="search_box" type="search"><br><br>
+    <input id="search_box" name="search_box" type="search" onkeyup="searchOpen()"><br><br>
     <input type="submit" value="Submit">
     <br><br>
     <div class="switch-field">
