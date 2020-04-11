@@ -1,6 +1,7 @@
 import csv
 from multiprocessing.pool import ThreadPool
 from os import system
+import json
 
 
 class LinkItem(object):
@@ -35,6 +36,10 @@ def activate_auxiliary_routines(cmd, file_path):
     for e, result in enumerate(async_results):
         if e == 1:
             urls_dict = result.get()
+            urls_dict.pop("filename")
+            json_filename = "hash_map.json"
+            with open(json_filename, 'w') as jf:
+                json.dump(urls_dict, jf)
             return urls_dict
 
 

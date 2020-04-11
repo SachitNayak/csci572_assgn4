@@ -2,10 +2,12 @@ import json
 from copy import deepcopy
 from urllib.parse import urlencode, quote_plus
 from urllib.request import *
+from os import getcwd
 
 from django.shortcuts import render
 
 from . import utils
+from . import norvig_spell_checker
 
 HOME_DIR = "/home/de11bu23n58k/"
 SOLR_PATH = HOME_DIR + "solr-7.7.2/"
@@ -15,22 +17,36 @@ DELAY = 3
 NORMAL_CORE_NAME = 'latimes_core'
 PAGE_RANK_CORE_NAME = 'page_rank_core'
 URL_HTML_HASH_MAP = dict()
+json_filename = getcwd()+"/search/hash_map.json"
 
 
 def index(request):
-    global URL_HTML_HASH_MAP
-    URL_HTML_HASH_MAP = utils.activate_auxiliary_routines(cmd=START_CMD, file_path=URL_HTML_CSV_MAP_PATH)
+    global URL_HTML_HASH_MAP, json_filename
+    # URL_HTML_HASH_MAP = utils.activate_auxiliary_routines(cmd=START_CMD, file_path=URL_HTML_CSV_MAP_PATH)
+    with open(json_filename, 'r') as jf:
+        URL_HTML_HASH_MAP = json.load(jf)
     return render(request, 'search/index.html')
 
 
 def process(request):
-    global URL_HTML_HASH_MAP, NORMAL_CORE_NAME, PAGE_RANK_CORE_NAME
+    global URL_HTML_HASH_MAP, NORMAL_CORE_NAME, PAGE_RANK_CORE_NAME, json_filename
+    if len(URL_HTML_HASH_MAP.items()) == 0:
+        with open(json_filename, 'r') as jf:
+            URL_HTML_HASH_MAP = json.load(jf)
     user_query = request.GET.get('search_box')
     user_query = user_query.replace('"', '').replace('"', '')
     search_method = request.GET.get('search_switch')
     original_case_user_query = deepcopy(user_query)
     user_query = user_query.strip().lower()
+    possible_spelling = norvig_spell_checker.correction(user_query)
+    spell_error_detected = False
+    if possible_spelling != user_query:
+        spell_error_detected = True
+
     print("query was: ", user_query)
+    if spell_error_detected:
+        print("possible spell correction: ", possible_spelling)
+
     if search_method == "ns":
         core_name = NORMAL_CORE_NAME
     else:
@@ -59,9 +75,15 @@ def process(request):
         search_result_links.append(link_item)
     print(num_docs, "documents found.")
     context = dict(user_query=original_case_user_query, num_docs=num_docs, links=search_result_links,
-                   num_rows=res_row_count)
+                   num_rows=res_row_count, spell_error=spell_error_detected, corrected_spell=possible_spelling, zero_docs=False)
+
     search_title = "Lucene Normal Search Results:"
     if search_method == 'prs':
         search_title = "Page Rank Search Results: "
     context['search_title'] = search_title
+
+    if num_docs == 0:
+        context['zero_docs'] = True
+    if spell_error_detected:
+        context['spell_link'] = '?search_box='+possible_spelling+'&search_switch='+search_method
     return render(request, 'search/results.html', context)

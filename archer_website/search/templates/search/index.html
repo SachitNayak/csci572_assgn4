@@ -50,7 +50,6 @@
 <h3>Search Page</h3>
 <br>
 <form action="{% url 'search:process_query' %}">
-    {% csrf_token %}
     <label for="search_box">Query:</label>
     <input id="search_box" name="search_box" type="search" onkeyup="searchOpen()"><br><br>
     <input type="submit" value="Submit">

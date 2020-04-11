@@ -86,6 +86,7 @@ def analyze(list1, list2):
     overlap_percent = 0
     di2_list = list()
     if length2 >= 1:
+        overlap_count = len(tuple(set(list1).intersection(set(list2))))
         for i in range(length1):
             for j in range(length2):
                 url_1 = list1[i].replace("https://", "").replace("http://", "")
@@ -95,7 +96,6 @@ def analyze(list1, list2):
                 if url_2.endswith("/"):
                     url_2 = url_2[:-1]
                 if url_1.lower() == url_2.lower():
-                    overlap_count += 1
                     di2_list.append((i - j) ** 2)
         overlap_percent = (overlap_count / ((length1+length2)-overlap_count)) * 100
     return [overlap_count, overlap_percent, di2_list]
@@ -156,32 +156,32 @@ if __name__ == "__main__":
     plt.ylabel('OVERLAP COUNT')
 
     # Show graphic
-    # plt.show()
+    plt.show()
 
-    # generate table
-    q_col = list()
-    for k in range(len(query_list)):
-        spaces_list = [' ']*len(NORMAL_LIST[k])
-        temp_list = [query_list[k]] + spaces_list
-        q_col.extend(temp_list)
-        spaces_list.clear()
-        temp_list.clear()
-
-    nl_col = list()
-    pg_col = list()
-    for k in range(len(query_list)):
-        NORMAL_LIST[k].append(' ')
-        PG_LIST[k].append(' ')
-        nl_col.extend(NORMAL_LIST[k])
-        pg_col.extend(PG_LIST[k])
-
-    assert len(q_col) == len(nl_col)
-    assert len(q_col) == len(pg_col)
-
-    header_row = ["Query", "Normal Lucene Search Results", "PageRank Search Results"]
-    csv_rows = zip(q_col, nl_col, pg_col)
-    with open('tables.csv', 'w') as csv_f:
-        csv_writer = csv.writer(csv_f)
-        csv_writer.writerow(header_row)
-        csv_writer.writerows(csv_rows)
+    # # generate table
+    # q_col = list()
+    # for k in range(len(query_list)):
+    #     spaces_list = [' ']*len(NORMAL_LIST[k])
+    #     temp_list = [query_list[k]] + spaces_list
+    #     q_col.extend(temp_list)
+    #     spaces_list.clear()
+    #     temp_list.clear()
+    #
+    # nl_col = list()
+    # pg_col = list()
+    # for k in range(len(query_list)):
+    #     NORMAL_LIST[k].append(' ')
+    #     PG_LIST[k].append(' ')
+    #     nl_col.extend(NORMAL_LIST[k])
+    #     pg_col.extend(PG_LIST[k])
+    #
+    # assert len(q_col) == len(nl_col)
+    # assert len(q_col) == len(pg_col)
+    #
+    # header_row = ["Query", "Normal Lucene Search Results", "PageRank Search Results"]
+    # csv_rows = zip(q_col, nl_col, pg_col)
+    # with open('tables.csv', 'w') as csv_f:
+    #     csv_writer = csv.writer(csv_f)
+    #     csv_writer.writerow(header_row)
+    #     csv_writer.writerows(csv_rows)
 print("Done.")

@@ -15,6 +15,10 @@
         <h4>{{ search_title }}</h4>
         <h5>Query Asked: {{ user_query }}</h5>
         <br>
+        {% if spell_error %}
+        <h5>Did you mean: <a href="/search/results/{{ spell_link }}"><u>{{ corrected_spell }}</u></a>?</h5>
+        <br>
+        {% endif %}
         <h5>{{ num_docs }} matching documents were found. Showing top {{ num_rows }} </h5>
         <a style="font-size:14px;" href="{% url 'search:search_index' %}"> Go Back to Search Page </a>
         <br><br><br>
@@ -25,7 +29,9 @@
         <p id="lower">{{ item.desc }}</p>
         <br>
         {% endfor %}
+        {% if not zero_docs %}
         <a style="font-size:14px;" href="{% url 'search:search_index' %}"> Go Back to Search Page </a>
+        {% endif %}
     </ul>
 </div>
 
