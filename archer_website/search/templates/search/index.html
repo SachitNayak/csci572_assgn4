@@ -10,41 +10,7 @@
     <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" rel="stylesheet">
     <link href="{% static 'search/style.css' %}" rel="stylesheet" type="text/css">
-    <script>
-        function searchOpen() {
-            var search_value = $('#search_box').val()
-            var data = {
-                q: search_value,
-                wt :'json'
-            };
-            $.ajax({
-                url: 'http://localhost:8983/solr/latimes_core/suggest',
-                data: data,
-                dataType: 'jsonp',
-                cors: true ,
-              secure: true,
-              headers: {
-                'Access-Control-Allow-Origin': '*',
-              },
-                jsonp: 'json.wrf',
-                jsonpCallback: 'searchResult'
-            });
-        }
-
-
-        function searchResult(data) {
-            var q = $('#search_box').val();
-            var val = data.suggest.suggest;
-            var res = val[q].suggestions;
-            var data_arr = [];
-            for(var i in res){
-                data_arr.push(res[i]["term"]);
-            }
-            $( "#search_box" ).autocomplete({
-                source: data_arr
-            });
-        }
-    </script>
+<script src="{% static 'search/autosuggest.js' %}" type="text/javascript"></script>
 </head>
 <body>
 <h3>Search Page</h3>
